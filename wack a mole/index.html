@@ -2,12 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>WHACK-A-MOLE</title>
     <link rel="stylesheet" href="style.css">
     <link href='https://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
   </head>
 
   <body>
+
+    <audio>
+        <source src="slap.wav">
+    </audio>
 
     <header>
         <h1 class="display__time-left"></h1>
@@ -71,6 +76,8 @@
       const holes = document.querySelectorAll('.hole');
       const moles = document.querySelectorAll('.mole');
 
+      const audio = document.querySelector('audio');
+      audio.defaultPlaybackRate = 1.5;
       let lastHole;
       let timeUp = false;
       let score = 0;
@@ -78,8 +85,8 @@
       let gameTime = 0;
       let countdown;
 
-      if(localStorage[`${level.value}`])
-        highScore.textContent = 'HighScore ' + localStorage.getItem(`${level.value}`);
+      if(localStorage[`${level.value + gameTime}`])
+        highScore.textContent = 'HighScore ' + localStorage.getItem(`${level.value + gameTime}`);
       else highScore.textContent = 'HighScore ' + 0;  
 
       function getRandTime(max, min) {
@@ -125,12 +132,14 @@
         setTimeout(() => {
           timeUp = true;
           console.log(score);
-          console.log(Number(localStorage.getItem(`${levelNo}`)));
-          if(score > Number(localStorage.getItem(`${levelNo}`))) {
-            localStorage.setItem(`${levelNo}`, JSON.stringify(score));
+          console.log(Number(localStorage.getItem(`${level.value + gameTime}`)));
+          if(score > Number(localStorage.getItem(`${level.value + gameTime}`))) {
+            localStorage.setItem(`${level.value + gameTime}`, JSON.stringify(score));
           }
-          highScore.textContent = 'HighScore ' + Number(localStorage.getItem(`${levelNo}`));
-        },gameTime);
+          highScore.textContent = 'HighScore ' + Number(localStorage.getItem(`${level.value + gameTime}`));
+          if(window.innerWidth < 1000) alert(`Score: ${score}`);
+        },gameTime + 1000);
+
       }
 
     
@@ -160,8 +169,11 @@
 
       function points(e) {
         if(!e.isTrusted) return;
+        audio.currentTime = 0;
+        audio.play();
         score++;
         this.classList.remove('up');
+        // audio.pause();
         scoreBoard.textContent = 'Score: ' + score;
         // console.log(e);
       }
@@ -173,6 +185,11 @@
         const seconds = parseInt(this.value);
         gameTime = seconds* 1000;
         displayTimeLeft(seconds);
+        console.log(level.value + gameTime);
+        if(localStorage[`${level.value + gameTime}`])
+          highScore.textContent = 'HighScore ' + localStorage.getItem(`${level.value + gameTime}`);
+        else highScore.textContent = 'HighScore ' + 0;
+
       }
       gameTimeSetter.forEach(button => button.addEventListener('click', setGameTime));
 
@@ -180,8 +197,8 @@
 
       function changeHighScore() {
         
-        if(localStorage[`${this.value}`])
-          highScore.textContent = 'HighScore ' + localStorage.getItem(`${this.value}`);
+        if(localStorage[`${this.value + gameTime}`])
+          highScore.textContent = 'HighScore ' + localStorage.getItem(`${this.value + gameTime}`);
         else highScore.textContent = 'HighScore ' + 0;
       }
     </script>

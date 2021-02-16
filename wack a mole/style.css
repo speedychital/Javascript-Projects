@@ -13,7 +13,7 @@ body {
     font-family: 'Amatic SC', cursive;
     margin: 0;
     display: grid;
-    height: 100vh;
+    /* height: 100vh; */
     grid-template-columns: minmax(200px, 1fr) minmax(600px, 3fr);
     grid-template-rows: auto 1fr;
     /* min-height: 100vh; */
@@ -22,13 +22,16 @@ body {
         "dashboard game";
 }
 
+
+
 header {
     grid-area: header;
-    font-size: 2rem;
+    font-size: 1.5em;
     display: grid;
     /* justify-content: center; */
     align-items: center;
     grid-template-columns: auto 1fr;
+    grid-gap: 10px;
     grid-auto-flow: column;
     border-bottom: solid 5px black;
     padding: 0 2rem;
@@ -72,6 +75,13 @@ h1 {
 .level-wrapper > * {
     flex: 1;
 }
+
+#levels {
+    font-family: sans-serif;
+    font-weight: 700;
+    color: #444;
+    border-radius: 2em;
+}
 .time-wrapper {
     display: flex;
     padding: 10px;
@@ -81,12 +91,27 @@ h1 {
 }
 .time-wrapper > * {
     border: none;
+    border-radius: 5px;
+}
+
+.time-wrapper button:hover {
+    cursor: pointer;
+    border: 1px solid blue;
+    background: blue;
+    transition: 0.4s;
+    color: white;
+    font-weight: 100;
+    box-shadow: 0 12px 16px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 
 #start {
     font-size: 1.5rem;
-
+    border-radius: 10px;
     border: none;
+    cursor: pointer;
+    align-self: center;
+    justify-self: center;
+    padding: 1rem 2rem;
 }
 
 
@@ -95,6 +120,7 @@ h1 {
     grid-template-columns: repeat(3, minmax(200px, 1fr));
     grid-template-rows: repeat(2, minmax(200px, 1fr));
     margin: 0 auto;
+    grid-gap: 10;
 }
 
 .hole {
@@ -126,4 +152,33 @@ h1 {
 
 .hole.up .mole {
     top: 0;
+}
+
+@media (max-width: 1000px) {
+
+    body{
+        grid-template-columns: 1fr;
+
+        grid-template-areas: 
+            "header"
+            "game"
+            "dashboard";
+
+        grid-gap: 20px;    
+    }
+
+    .score {
+        display: none;
+    }
+
+    
+}
+
+@media (max-width: 600px) {
+
+    .game {
+
+    grid-template-columns: repeat(2, minmax(200px, 1fr));
+    grid-template-rows: repeat(3, minmax(200px, 1fr));
+    }
 }
