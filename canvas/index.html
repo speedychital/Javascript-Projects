@@ -6,6 +6,7 @@
   <title>To clear, type "clear"</title>
 </head>
 <body>
+  <button onclick="download()" title="Download">Download</button>
 <canvas id="draw" width="800" height="800"></canvas>
 <footer>
   <div class="logo">
@@ -29,13 +30,24 @@
         padding: 20px 30px;
 
     }
+
+    button {
+      background: transparent;
+      text-transform: uppercase;
+      border-radius: 10px;
+    }
+    canvas {
+      min-height: 100vh;
+    }
 </style>
 <script>
 
   const canvas = document.querySelector("#draw");
+  const body = document.querySelector('body');
+
   const ctx = canvas.getContext("2d");
   canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight; 
+  canvas.height = window.innerHeight;
   ctx.strokeStyle = "#BADA55";
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
@@ -80,6 +92,49 @@
     [lastX, lastY] = [e.offsetX, e.offsetY];
   });
 
+  canvas.addEventListener('touchstart', (e) => {
+    e.preventDefault();
+    isDrawing = true;
+    [lastX, lastY] = [e.touches[0].clientX, e.touches[0].clientY];
+    console.log(e);
+    console.log(isDrawing);
+  });
+
+  canvas.addEventListener('touchmove', (e) => {
+    console.log(e);
+    console.log(isDrawing);
+    if(!isDrawing) return;
+    ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`;
+    // ctx.lineWidth = hue; 
+    ctx.beginPath(); 
+    ctx.moveTo(lastX, lastY);
+    ctx.lineTo(e.touches[0].clientX, e.touches[0].clientY);
+    ctx.stroke();
+    [lastX, lastY] = [e.touches[0].clientX, e.touches[0].clientY];
+
+    hue++;
+    if(hue >= 360) {
+      hue = 0;
+    }
+
+    if(ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+      direction = !direction;
+    }
+
+    if(direction) {
+      ctx.lineWidth++;
+    } else {
+      ctx.lineWidth--;
+    }
+  });
+
+  canvas.addEventListener('mousemove', draw);
+
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('touchend', () => isDrawing = false)
+
+  canvas.addEventListener('mouseout', () => isDrawing = false);
+
 
   const pressed = [];
 
@@ -95,9 +150,16 @@
     }
   });
 
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', () => isDrawing = false);
-  canvas.addEventListener('mouseout', () => isDrawing = false);
+  function download() {
+
+    const url = canvas.toDataURL('img/jpeg');
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'canvasImage');
+    // console.log(link);
+    link.click();
+  };
+
 </script>
 
 <style>
