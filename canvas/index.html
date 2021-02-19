@@ -7,6 +7,7 @@
 </head>
 <body>
   <button onclick="download()" title="Download">Download</button>
+  <button title="Clear">Clear</button>
 <canvas id="draw" width="800" height="800"></canvas>
 <footer>
   <div class="logo">
@@ -36,9 +37,20 @@
       text-transform: uppercase;
       border-radius: 10px;
     }
-    canvas {
-      min-height: 100vh;
+
+    button[title="Clear"] {
+      display: none;
     }
+
+    @media(max-width: 1000px) {
+      button[title="Clear"] {
+        display: inline-block;
+      }
+    }
+
+    /* canvas {
+      min-height: 100vh;
+    } */
 </style>
 <script>
 
@@ -46,8 +58,11 @@
   const body = document.querySelector('body');
 
   const ctx = canvas.getContext("2d");
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  canvas.width = document.body.clientWidth;
+  canvas.height = document.body.clientHeight;
+
+  // canvas.width = window.innerWidth;
+  // canvas.height = window.innerHeight;
   ctx.strokeStyle = "#BADA55";
   ctx.lineJoin = "round";
   ctx.lineCap = "round";
@@ -159,6 +174,11 @@
     // console.log(link);
     link.click();
   };
+
+  document.querySelector('button[title="Clear"]').addEventListener('click', () => {
+      console.log("clearing");
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
 
 </script>
 

@@ -159,15 +159,15 @@ h1 {
 footer{
 
     grid-area: footer;
-    /* margin-top: 550px; */
+    
     background: #000000;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: minmax(150px, 1fr) minmax(150px,1fr) minmax(100px, 1fr);
     grid-template-rows: 2fr 1fr;
     margin-top: 50px;
     padding: 20px 30px;
     color: white;
-    justify-content: center;
+    /* justify-content: center; */
     justify-items: center;
     z-index: 1;
     font-size: 2em;
@@ -188,26 +188,30 @@ footer .footer-white {
 }
 footer .logo {
 
+    width: 100%;
     display: grid;
-    /* justify-items: center */
+    justify-items: center;
     text-align: center;
     align-self: center;
 }
 
+footer img {
+    max-width: 50%;
+}
 footer ul {
 
     padding: 0;
     list-style: none;
     display: grid;
-    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    /* grid-auto-flow: column; */
     align-self: center;
     grid-gap: 4rem;
+    grid-column: 3;
 }
 
 footer a {
     grid-column: 1 / -1;
-    /* width: 100%; */
-    /* margin: 0 auto; */
     text-decoration: none;
     text-align: center;
     color: mistyrose;
@@ -248,5 +252,10 @@ footer a {
 
     grid-template-columns: repeat(2, minmax(200px, 1fr));
     grid-template-rows: repeat(3, minmax(200px, 1fr));
+    }
+
+    footer ul{
+        grid-template-columns: 1fr 1fr;
+
     }
 }
