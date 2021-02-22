@@ -1,2 +1,3 @@
-# Projects made in guidance of Wesbos's JAVASRIPT30 CHALLENGE.
-They are not exact projects taught by him, i have made changes/added some more experiences in them.
+# Projects made with starter guidance by Wesbos's JAVASRIPT30 CHALLENGE.
+
+I have added more functionality/interaction to the projects.
