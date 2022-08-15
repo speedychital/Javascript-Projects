@@ -1,14 +1,17 @@
 {
-  "name": "gum",
-  "version": "1.0.0",
-  "description": "",
-  "main": "scripts.js",
-  "scripts": {
-    "start": "browser-sync start --directory --server --files \"*.css, *.html, *.js\""
-  },
-  "author": "",
-  "license": "ISC",
-  "devDependencies": {
-    "browser-sync": "^2.12.5 <2.23.2"
-  }
+    "name": "gum",
+    "version": "1.0.0",
+    "description": "",
+    "main": "app.js",
+    "scripts": {
+        "start": "nodemon app.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.17.1"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.7"
+    }
 }

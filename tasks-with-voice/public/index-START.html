@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Speech Detection</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+    </head>
+    <body>
+        <div class="words" contenteditable></div>
+
+        <script>
+            //initial basics
+            var SpeechRecognition =
+                SpeechRecognition || webkitSpeechRecognition;
+            var SpeechGrammarList =
+                SpeechGrammarList || window.webkitSpeechGrammarList;
+            var SpeechRecognitionEvent =
+                SpeechRecognitionEvent || webkitSpeechRecognitionEvent;
+
+            const colors = [
+                "aqua",
+                "azure",
+                "beige",
+                "bisque",
+                "black",
+                "blue",
+                "brown",
+                "chocolate",
+                "coral",
+                "crimson",
+                "cyan",
+                "fuchsia",
+                "ghostwhite",
+                "gold",
+                "goldenrod",
+                "gray",
+                "green",
+                "indigo",
+                "ivory",
+                "khaki",
+                "lavender",
+                "lime",
+                "linen",
+                "magenta",
+                "maroon",
+                "moccasin",
+                "navy",
+                "olive",
+                "orange",
+                "orchid",
+                "peru",
+                "pink",
+                "plum",
+                "purple",
+                "red",
+                "salmon",
+                "sienna",
+                "silver",
+                "snow",
+                "tan",
+                "teal",
+                "thistle",
+                "tomato",
+                "turquoise",
+                "violet",
+                "white",
+                "yellow",
+            ];
+            const recognition = new SpeechRecognition();
+            recognition.interimResults = true;
+            recognition.lang = "en-US";
+            speechSynthesis.lang = "en-US";
+            //specific for this
+            let p = document.createElement("p");
+            const body = document.querySelector("body");
+            const words = body.querySelector(".words");
+            words.appendChild(p);
+
+            let colorToChange;
+
+            recognition.onresult = (e) => {
+                // console.log(e);
+                const transcript = e.results[0][0].transcript;
+                p.textContent = transcript;
+
+                if (e.results[0].isFinal) {
+                    p = document.createElement("p");
+                    words.appendChild(p);
+                }
+
+                colorToChange = colors.find(function (color) {
+                    return transcript.includes(color);
+                });
+
+                if (colorToChange != null) {
+                    // speechSynthesis.speak(
+                    //     new SpeechSynthesisUtterance(
+                    //         `Color changing to ${colorToChange}`
+                    //     )
+                    // );
+
+                    body.style.backgroundColor = `${colorToChange}`;
+                }
+            };
+
+            recognition.addEventListener("end", recognition.start);
+            recognition.start();
+
+            recognition.onerror = function (event) {
+                p.textContent = "Error occurred in recognition: " + event.error;
+            };
+
+            recognition.onspeechend = function () {
+                recognition.stop();
+            };
+
+            recognition.onnomatch = function (event) {
+                p.textContent = "I didn't recognise that color.";
+            };
+        </script>
+
+        <style>
+            html {
+                font-size: 10px;
+            }
+
+            body {
+                background: #ffc600;
+                font-family: "helvetica neue";
+                font-weight: 200;
+                font-size: 20px;
+            }
+
+            .words {
+                max-width: 500px;
+                margin: 50px auto;
+                background: white;
+                border-radius: 5px;
+                box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.1);
+                padding: 1rem 2rem 1rem 5rem;
+                background: -webkit-gradient(
+                        linear,
+                        0 0,
+                        0 100%,
+                        from(#d9eaf3),
+                        color-stop(4%, #fff)
+                    )
+                    0 4px;
+                background-size: 100% 3rem;
+                position: relative;
+                line-height: 3rem;
+            }
+
+            p {
+                margin: 0 0 3rem;
+            }
+
+            .words:before {
+                content: "";
+                position: absolute;
+                width: 4px;
+                top: 0;
+                left: 30px;
+                bottom: 0;
+                border: 1px solid;
+                border-color: transparent #efe4e4;
+            }
+        </style>
+    </body>
+</html>
